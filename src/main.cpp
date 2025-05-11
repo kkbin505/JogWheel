@@ -5,10 +5,10 @@
 // 定义GPIO
 #define x_axis A0
 #define y_axis A1
-#define key_1 1
-#define key_2 2
-#define key_3 3
-#define key_4 4
+#define key_1 4
+#define key_2 5
+#define key_3 6
+#define key_4 7
 
 // 定义最大最小值变量
 int a0_min = 1023;
@@ -48,9 +48,9 @@ int last_angle_step = 0;
 int step = 3.0;  //增量步
 
 // 模拟按键按下和释放的函数
-void pressKey(uint8_t key) {
+void pressKey(uint8_t key, uint8_t press_delay) {
   Keyboard.press(key); // 按下按键
-  delay(pressDelay); // 保持按下一段时间
+  delay(press_delay); // 保持按下一段时间
   Keyboard.release(key); // 释放按键
 } 
 
@@ -70,11 +70,20 @@ void loop() {
   // 读取 A0 和 A1 引脚的模拟值（范围 0~1023）
   int adcValueX = analogRead(A0);
   int adcValueY = analogRead(A1);
-  if(digitalRead(key_1) == LOW){
+  if(digitalRead(key_4) == LOW){
     Mouse.press(MOUSE_LEFT);
     delay(10);  // 点击持续时间
     Mouse.release(MOUSE_LEFT);
-    pressKey(KEY_DELETE);
+    pressKey(KEY_DELETE,100);
+  }
+  if(digitalRead(key_2) == LOW){
+    pressKey(KEY_DOWN_ARROW,200);
+  }
+  if(digitalRead(key_3) == LOW){
+    pressKey(KEY_UP_ARROW,200);
+  }
+  if(digitalRead(key_1) == LOW){
+    
   }
 
   adcValueX = constrain(adcValueX, 130, 920);
@@ -115,11 +124,11 @@ void loop() {
 
   if (stepAccumulator >= step) {
     // 右
-    pressKey(KEY_RIGHT_ARROW);
+    pressKey(KEY_RIGHT_ARROW,pressDelay);
     stepAccumulator = 0;
   } else if (stepAccumulator <= -step) {
     // 左
-    pressKey(KEY_LEFT_ARROW);
+    pressKey(KEY_LEFT_ARROW,pressDelay);
     stepAccumulator = 0;
   }
 
