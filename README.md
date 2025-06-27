@@ -11,7 +11,7 @@ This project uses an **AS5600 magnetic hall rotary encoder** with an **ESP32-S3*
 
 -  Reads angle from AS5600 via I2C
 -  Detects rotation direction (CW / CCW)
--  Sends `←` or `→` key presses via USB HID to simulate last or next frame
+-  Frame by frame jog wheel navigation control
 -  ESP32-S3 HID support, fully plug-and-play on Windows
 
 ---
